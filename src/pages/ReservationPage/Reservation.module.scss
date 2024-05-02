@@ -1,0 +1,10 @@
+.reservationContainer{
+    border: 1px solid red;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+.seatContainer{
+    border:1px solid black
+}

@@ -1,0 +1,32 @@
+export const seatArray = [
+  {
+    lowerDesk: [
+      { seatNumber: "Ll", desk: "Lower", booked: false },
+      { seatNumber: "L2", desk: "Lower", booked: false },
+      { seatNumber: "L3", desk: "Lower", booked: false },
+      { seatNumber: "L4", desk: "Lower", booked: false },
+      { seatNumber: "L5", desk: "Lower", booked: false },
+      { seatNumber: "L6", desk: "Lower", booked: false },
+      { seatNumber: "L7", desk: "Lower", booked: false },
+      { seatNumber: "L8", desk: "Lower", booked: false },
+      { seatNumber: "L9", desk: "Lower", booked: false },
+      { seatNumber: "L10", desk: "Lower", booked: false },
+      { seatNumber: "Ll1", desk: "Lower", booked: false },
+      { seatNumber: "Ll2", desk: "Lower", booked: false },
+    ],
+    UpperDesk: [
+      { seatNumber: "Ul", desk: "Upper", booked: false },
+      { seatNumber: "U2", desk: "Upper", booked: false },
+      { seatNumber: "U3", desk: "Upper", booked: false },
+      { seatNumber: "U4", desk: "Upper", booked: false },
+      { seatNumber: "U5", desk: "Upper", booked: false },
+      { seatNumber: "U6", desk: "Upper", booked: false },
+      { seatNumber: "U7", desk: "Upper", booked: false },
+      { seatNumber: "U8", desk: "Upper", booked: false },
+      { seatNumber: "U9", desk: "Upper", booked: false },
+      { seatNumber: "U10", desk: "Upper", booked: false },
+      { seatNumber: "Ul1", desk: "Upper", booked: false },
+      { seatNumber: "Ul2", desk: "Upper", booked: false },
+    ],
+  },
+];
