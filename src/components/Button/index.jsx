@@ -1,6 +1,7 @@
 import { Button } from "antd";
 import classNames from "classnames";
 import React from "react";
+import style from "./CustomeButton.module.scss";
 
 const CustomButton = ({
   variant = "",
