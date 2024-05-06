@@ -41,6 +41,13 @@ const DashboardPage = () => {
       title: "Seat Number",
       dataIndex: "seatNumber",
       key: "seatNumber",
+      render: (row) => {
+        return (
+          <div>
+            {row.map((element) => element).join(", ")}
+          </div>
+        );
+      },
     },
     {
       title: "Booking Date",
@@ -95,6 +102,7 @@ const DashboardPage = () => {
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );
+
   return (
     <div className={styles.dashboardContainer}>
       <ComponentHeader headerText={"Dashboard Page"} />
