@@ -1,3 +1,8 @@
+.dashboardContainer {
+  padding: 20px;
+  background-color: #eee0e0;
+  height: 100vh;
+}
 .deleteWraapper {
   cursor: pointer;
 
@@ -23,4 +28,7 @@
       }
     }
   }
+}
+.tableContainer{
+  margin-top: 20px;
 }

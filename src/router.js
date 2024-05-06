@@ -5,13 +5,13 @@ import ErrorPage from "./pages/errorPage";
 import ReservationPage from "./pages/ReservationPage";
 
 const routes = [
-  {
-    path: "/",
-    name: "WelComePage",
-    component: WelComePage,
-    isPrivate: false,
-    layout: "public",
-  },
+    // {
+    //   path: "/",
+    //   name: "WelComePage",
+    //   component: WelComePage,
+    //   isPrivate: false,
+    //   layout: "public",
+    // },
   {
     path: "/login",
     name: "LogInPage",
@@ -20,7 +20,7 @@ const routes = [
     layout: "auth",
   },
   {
-    path: "/dashboard",
+    path: "/",
     name: "DashboardPage",
     component: DashboardPage,
     isPrivate: true,

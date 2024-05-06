@@ -6,6 +6,7 @@ import BookingModal from "../ReservationPage/BookingModal/BookingModal";
 import { DeleteFilled, EditFilled } from "@ant-design/icons";
 import styles from "./dashboard.module.scss";
 import TablePagination from "./TablePagination";
+import ComponentHeader from "../../components/ComponentHeader";
 
 const DashboardPage = () => {
   const reservationSelector = useSelector((state) => state.reservationReducer);
@@ -95,27 +96,30 @@ const DashboardPage = () => {
     currentPage * pageSize
   );
   return (
-    <div>
-      <Table columns={columns} dataSource={paginateData} pagination={false} />
-      {paginateData.length > 10 && (
-        <TablePagination
-          data={userData}
-          currentPage={currentPage}
-          pageSize={pageSize}
-          handlePageChange={handlePageChange}
-        />
-      )}
-      {isOpenModal ? (
-        <BookingModal
-          isOpenModal={isOpenModal}
-          handleModal={handleModal}
-          userObj={userObj}
-          setUserObj={setUserObj}
-          isEdit={isEdit}
-        />
-      ) : (
-        <></>
-      )}
+    <div className={styles.dashboardContainer}>
+      <ComponentHeader headerText={"Dashboard Page"} />
+      <div className={styles.tableContainer}>
+        <Table columns={columns} dataSource={paginateData} pagination={false} />
+        {paginateData.length > 10 && (
+          <TablePagination
+            data={userData}
+            currentPage={currentPage}
+            pageSize={pageSize}
+            handlePageChange={handlePageChange}
+          />
+        )}
+        {isOpenModal ? (
+          <BookingModal
+            isOpenModal={isOpenModal}
+            handleModal={handleModal}
+            userObj={userObj}
+            setUserObj={setUserObj}
+            isEdit={isEdit}
+          />
+        ) : (
+          <></>
+        )}
+      </div>
     </div>
   );
 };
