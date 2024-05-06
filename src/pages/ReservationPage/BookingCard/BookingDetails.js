@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import style from "./Booking.module.scss";
 import CustomButton from "../../../components/Button";
 import BookingModal from "../BookingModal/BookingModal";
@@ -10,16 +10,24 @@ const BookingDetails = ({ selectedSeatData = [] }) => {
 
   const price = 500;
   const handleModal = (value) => {
+    if (!value) {
+      setUserObj(initialUserObj);
+    }
     setIsOpenModal(value);
   };
   const initialUserObj = {
     firstName: "",
     lastName: "",
     email: "",
-    seatNumber: seatData.map((element) => element.seatNumber) || [],
+    seatNumber: [],
     dateOfBooking: "",
   };
   const [userObj, setUserObj] = useState(initialUserObj);
+  useEffect(() => {
+    const seatUpdatedData = seatData.map((element) => element.seatNumber) || [];
+
+    setUserObj({ ...userObj, seatNumber: seatUpdatedData });
+  }, [seatData, isOpenModal]);
   return (
     <div className={style.bookingDetailContainer}>
       <div className={style.bookingHeadingWrapper}>Booking Detail</div>

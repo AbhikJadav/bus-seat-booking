@@ -1,69 +1,58 @@
 import React from "react";
 import style from "./Reservation.module.scss";
+import { useSelector } from "react-redux";
+import classNames from "classnames";
+import SeatDesignComponent from "./SeatDesignComponent";
 
 const SeatComponent = ({
   deskHeading = "",
   seatDataArray = [],
   handleSeat = () => {},
 }) => {
+  const reservationSelector = useSelector((state) => state.reservationReducer);
+  const { userData, seatData } = reservationSelector;
+  const userSeatNumber = userData.map((element) => element.seatNumber).flat();
+  const checkSeatIsAvailble = (element) =>
+    userSeatNumber.includes(element.seatNumber);
+
+  const checkSeatSelected = (element) =>
+    seatData.map((element) => element.seatNumber).includes(element.seatNumber);
+  const commonProps = {
+    checkSeatIsAvailble,
+    checkSeatSelected,
+    handleSeat,
+  };
   return (
     <div className={style.deskContainer}>
       <div className={style.deskHeadingConatiner}>{deskHeading}</div>
       <div className={style.deskWrapper}>
         <div className={style.seatWrapper}>
           <div className={style.doubleWraapper}>
-            {seatDataArray
-              .filter(
+            <SeatDesignComponent
+              filterData={seatDataArray.filter(
                 (element, index) =>
                   index % 2 === 0 && element.category === "double"
-              )
-              .map((element) => {
-                return (
-                  <div
-                    className={style.seatDesignWrapper}
-                    onClick={() => handleSeat(element)}
-                  >
-                    {element.seatNumber}
-                    <div className={style.seatSquare} />
-                  </div>
-                );
-              })}
+              )}
+              {...commonProps}
+            />
           </div>
           <div className={style.doubleWraapper}>
-            {seatDataArray
-              .filter(
+            <SeatDesignComponent
+              filterData={seatDataArray?.filter(
                 (element, index) =>
                   index % 2 !== 0 && element.category === "double"
-              )
-              .map((element) => {
-                return (
-                  <div
-                    className={style.seatDesignWrapper}
-                    onClick={() => handleSeat(element)}
-                  >
-                    {element.seatNumber}
-                    <div className={style.seatSquare} />
-                  </div>
-                );
-              })}
+              )}
+              {...commonProps}
+            />
           </div>
         </div>
         <div className={style.singleSeatWrapper}>
-          {seatDataArray
-            .filter((seat) => seat.category === "single")
-            .map((element) => {
-              const { seatNumber } = element;
-
-              return (
-                <div
-                  className={style.seatDesignWrapper}
-                  onClick={() => handleSeat(element)}
-                >
-                  {seatNumber}
-                  <div className={style.seatSquare} />
-                </div>
-              );
-            })}
+          <SeatDesignComponent
+            filterData={seatDataArray.filter(
+              (seat) => seat.category === "single"
+            )}
+            {...commonProps}
+          />
         </div>
       </div>
     </div>
