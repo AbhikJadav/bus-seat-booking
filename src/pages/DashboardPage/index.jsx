@@ -1,8 +1,10 @@
-import { Button, Form, Input, Space, Table } from "antd";
+import { Space, Table } from "antd";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUserData } from "../../store/Action/ReservationAction";
 import BookingModal from "../ReservationPage/BookingModal/BookingModal";
+import { DeleteFilled, EditFilled } from "@ant-design/icons";
+import styles from "./dashboard.module.scss";
 
 const DashboardPage = () => {
   const reservationSelector = useSelector((state) => state.reservationReducer);
@@ -45,8 +47,18 @@ const DashboardPage = () => {
       key: "action",
       render: (rowData) => (
         <Space size="middle">
-          <a onClick={() => handleDeleteClick(rowData)}>Delete</a>
-          <a onClick={() => handleEditClick(rowData)}>Edit</a>
+          <div
+            onClick={() => handleDeleteClick(rowData)}
+            className={styles.deleteWraapper}
+          >
+            <DeleteFilled />
+          </div>
+          <div
+            onClick={() => handleEditClick(rowData)}
+            className={styles.editWraapper}
+          >
+            <EditFilled />
+          </div>
         </Space>
       ),
     },

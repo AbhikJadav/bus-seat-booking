@@ -1,14 +1,15 @@
-import { Button, DatePicker, Form, Input, Modal, Select } from "antd";
-import React, { useState } from "react";
+import { DatePicker, Form, Modal, Select } from "antd";
+import React from "react";
 import CustomButton from "../../../components/Button";
 import CustomInputField from "../../../components/CustomInputField";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   setUserData,
   updateUserData,
 } from "../../../store/Action/ReservationAction";
 import { v4 as uuid } from "uuid";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router";
 
 const BookingModal = ({
   isOpenModal = false,
@@ -17,8 +18,7 @@ const BookingModal = ({
   setUserObj = () => {},
   isEdit = false,
 }) => {
-  console.log("userObj", userObj);
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [form] = Form.useForm();
 
@@ -37,6 +37,10 @@ const BookingModal = ({
   const onFinish = (value) => {
     console.log("value", value);
   };
+  const disabledDate = (current) => {
+    // Can not select days before today and today
+    return current && current < dayjs().endOf("day");
+  };
   const {
     firstName = "",
     lastName = "",
@@ -53,6 +57,7 @@ const BookingModal = ({
         await form.validateFields();
         dispatch(setUserData({ ...userObj, id: uuid() }));
         handleModal(false);
+        navigate("/dashboard");
       } catch (error) {
         console.error("Form validation failed:", error);
       }
@@ -174,6 +179,7 @@ const BookingModal = ({
               defaultValue={
                 dateOfBooking ? dayjs(dateOfBooking, "DD-MM-YYYY") : ""
               }
+              disabledDate={disabledDate}
             />
           </Form.Item>
         </Form>

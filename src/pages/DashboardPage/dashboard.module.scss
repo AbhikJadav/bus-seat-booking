@@ -1,0 +1,26 @@
+.deleteWraapper {
+  cursor: pointer;
+
+  svg {
+    height: 20px;
+    width: 20px;
+    path {
+      &:hover {
+        fill: red;
+      }
+    }
+  }
+}
+.editWraapper {
+  cursor: pointer;
+
+  svg {
+    height: 20px;
+    width: 20px;
+    path {
+      &:hover {
+        fill: blue;
+      }
+    }
+  }
+}

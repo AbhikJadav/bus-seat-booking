@@ -1,21 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import ComponentHeader from "../../components/ComponentHeader";
 import style from "./Reservation.module.scss";
-import { FrownTwoTone } from "@ant-design/icons";
-import CustomButton from "../../components/Button";
-import { seatArray, singleSeatNumbers } from "./ReservationConstant";
+import { seatArray } from "./ReservationConstant";
 import SeatComponent from "./SeatComponent";
 import BookingDetails from "./BookingCard/BookingDetails";
 import SeatAvailable from "./SeatAvailable/SeatAvailable";
 import { useDispatch, useSelector } from "react-redux";
-import { setSeatData } from "../../store/Action/ReservationAction";
+import { deleteSeatData, setSeatData } from "../../store/Action/ReservationAction";
 
 const ReservationPage = () => {
   const dispatch = useDispatch();
   const selector = useSelector((state) => state.reservationReducer);
   const { seatData: selectedSeatData } = selector;
+  const checkSeatSelected = (element) =>
+    selectedSeatData.map((ele) => ele.seatNumber).includes(element.seatNumber);
   const handleSeat = (element) => {
-    dispatch(setSeatData(element));
+    if (checkSeatSelected(element)) {
+      dispatch(deleteSeatData(element.seatNumber));
+    } else {
+      dispatch(setSeatData(element));
+    }
   };
   return (
     <div className={style.reservationContainer}>
