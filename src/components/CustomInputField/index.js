@@ -5,8 +5,10 @@ const CustomInputField = ({
   name = "",
   rules,
   value = "",
+  defaultValue = "",
   onChange = () => {},
   password = false,
+  placeholder = "",
 }) => {
   return (
     <div>
@@ -14,7 +16,13 @@ const CustomInputField = ({
         {password ? (
           <Input.Password name={name} value={value} onChange={onChange} />
         ) : (
-          <Input name={name} value={value} onChange={onChange} />
+          <Input
+            name={name}
+            value={value}
+            defaultValue={defaultValue}
+            onChange={onChange}
+            placeholder={placeholder}
+          />
         )}
       </Form.Item>
     </div>

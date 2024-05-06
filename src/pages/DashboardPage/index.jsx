@@ -1,70 +1,86 @@
-import { Button, Form, Input } from "antd";
-import React from "react";
+import { Button, Form, Input, Space, Table } from "antd";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteUserData } from "../../store/Action/ReservationAction";
+import BookingModal from "../ReservationPage/BookingModal/BookingModal";
 
 const DashboardPage = () => {
-  const onFinish = (values) => {
-    console.log("Success:", values);
+  const reservationSelector = useSelector((state) => state.reservationReducer);
+  const { userData = [] } = reservationSelector;
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const handleModal = (value) => {
+    setIsOpenModal(value);
+    setIsEdit(false);
   };
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
+  const dispatch = useDispatch();
+  const columns = [
+    {
+      title: "First Name",
+      dataIndex: "firstName",
+      key: "firstName",
+    },
+    {
+      title: "Last Name",
+      dataIndex: "lastName",
+      key: "lastName",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Seat Number",
+      dataIndex: "seatNumber",
+      key: "seatNumber",
+    },
+    {
+      title: "Booking Date",
+      dataIndex: "dateOfBooking",
+      key: "dateOfBooking",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (rowData) => (
+        <Space size="middle">
+          <a onClick={() => handleDeleteClick(rowData)}>Delete</a>
+          <a onClick={() => handleEditClick(rowData)}>Edit</a>
+        </Space>
+      ),
+    },
+  ];
+  const initialUserObj = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    seatNumber: [],
+    dateOfBooking: "",
+  };
+  const [userObj, setUserObj] = useState(initialUserObj);
+  const handleDeleteClick = (rowData) => {
+    dispatch(deleteUserData(rowData.id));
+  };
+  const handleEditClick = (rowData) => {
+    setUserObj(rowData);
+    handleModal(true);
+    setIsEdit(true);
   };
   return (
     <div>
-      <Form
-        name="basic"
-        labelCol={{
-          span: 8,
-        }}
-        wrapperCol={{
-          span: 16,
-        }}
-        style={{
-          maxWidth: 600,
-        }}
-        initialValues={{
-          remember: true,
-        }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
-      >
-        <Form.Item
-          label="Username"
-          name="username"
-          rules={[
-            {
-              required: true,
-              message: "Please input your username!",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          label="Password"
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: "Please input your password!",
-            },
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
-
-        <Form.Item
-          wrapperCol={{
-            offset: 8,
-            span: 16,
-          }}
-        >
-          <Button type="primary" htmlType="submit">
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
+      <Table columns={columns} dataSource={userData} />
+      {isOpenModal ? (
+        <BookingModal
+          isOpenModal={isOpenModal}
+          handleModal={handleModal}
+          userObj={userObj}
+          setUserObj={setUserObj}
+          isEdit={isEdit}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

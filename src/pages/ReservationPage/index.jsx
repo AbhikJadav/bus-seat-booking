@@ -16,9 +16,7 @@ const ReservationPage = () => {
   const { seatData: selectedSeatData } = selector;
   const handleSeat = (element) => {
     dispatch(setSeatData(element));
-    // setSelectedSeatData([...selectedSeatData, element]);
   };
-  console.log("selectedSeatData", selectedSeatData);
   return (
     <div className={style.reservationContainer}>
       <ComponentHeader headerText={"ReservationPage"} />

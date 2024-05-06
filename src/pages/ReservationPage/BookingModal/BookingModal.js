@@ -1,24 +1,27 @@
-import { Button, DatePicker, Form, Input, Modal } from "antd";
+import { Button, DatePicker, Form, Input, Modal, Select } from "antd";
 import React, { useState } from "react";
 import CustomButton from "../../../components/Button";
 import CustomInputField from "../../../components/CustomInputField";
 import { useDispatch, useSelector } from "react-redux";
-import { setUserData } from "../../../store/Action/ReservationAction";
+import {
+  setUserData,
+  updateUserData,
+} from "../../../store/Action/ReservationAction";
+import { v4 as uuid } from "uuid";
+import dayjs from "dayjs";
 
-const BookingModal = ({ isOpenModal = false, handleModal = () => {} }) => {
+const BookingModal = ({
+  isOpenModal = false,
+  handleModal = () => {},
+  userObj = {},
+  setUserObj = () => {},
+  isEdit = false,
+}) => {
+  console.log("userObj", userObj);
+
   const dispatch = useDispatch();
-  const reservationSelector = useSelector((state) => state.reservationReducer);
-  const { seatData = [], userData = [] } = reservationSelector;
   const [form] = Form.useForm();
 
-  const initialUserObj = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    seatNumber: "",
-    dateOfBooking: "",
-  };
-  const [userObj, setUserObj] = useState(initialUserObj);
   const handleFormOnChange = (event) => {
     const { name, value } = event.target;
     setUserObj((prev) => {
@@ -29,7 +32,10 @@ const BookingModal = ({ isOpenModal = false, handleModal = () => {} }) => {
     });
   };
   const handleDateOnChange = (date, dateString) => {
-    setUserObj({ ...userObj, dateOfBooking: date });
+    setUserObj({ ...userObj, dateOfBooking: dateString });
+  };
+  const onFinish = (value) => {
+    console.log("value", value);
   };
   const {
     firstName = "",
@@ -38,27 +44,34 @@ const BookingModal = ({ isOpenModal = false, handleModal = () => {} }) => {
     seatNumber = "",
     dateOfBooking = "",
   } = userObj;
-
-  const handleSaveClick = () => {
-    // if (form.validateFields()) {
-    dispatch(setUserData(userObj));
-    // }
+  const handleSaveClick = async () => {
+    if (isEdit) {
+      dispatch(updateUserData(userObj));
+      handleModal(false);
+    } else {
+      try {
+        await form.validateFields();
+        dispatch(setUserData({ ...userObj, id: uuid() }));
+        handleModal(false);
+      } catch (error) {
+        console.error("Form validation failed:", error);
+      }
+    }
   };
-  console.log(
-    "reservationSelector",
-    reservationSelector,
-    seatData.map((element) => element.seatNumber)
-  );
   return (
     <Modal
       title="Bookin Details"
       open={isOpenModal}
       onCancel={() => handleModal(false)}
       footer={[
-        <CustomButton buttonText="Cancel" htmlType="submit" />,
+        <CustomButton
+          buttonText="Cancel"
+          htmlType="submit"
+          onClick={() => handleModal(false)}
+        />,
         <CustomButton
           variant={"primary"}
-          buttonText="Save"
+          buttonText={isEdit ? "Update" : "Save"}
           htmlType="submit"
           onClick={handleSaveClick}
         />,
@@ -79,23 +92,14 @@ const BookingModal = ({ isOpenModal = false, handleModal = () => {} }) => {
             remember: true,
           }}
           form={form}
+          onFinish={onFinish}
         >
-          {/* <Form.Item
-            label="Username"
-            name="username"
-            rules={[
-              {
-                required: true,
-                message: "Please input your username!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item> */}
           <CustomInputField
             label="First Name"
             name="firstName"
             value={firstName}
+            defaultValue={firstName}
+            placeholder="Enter First Name"
             rules={[
               {
                 required: true,
@@ -109,6 +113,8 @@ const BookingModal = ({ isOpenModal = false, handleModal = () => {} }) => {
             label="Last Name"
             name="lastName"
             value={lastName}
+            defaultValue={lastName}
+            placeholder="Enter Last Name"
             rules={[
               {
                 required: true,
@@ -122,28 +128,33 @@ const BookingModal = ({ isOpenModal = false, handleModal = () => {} }) => {
             label="Email"
             name="email"
             value={email}
+            defaultValue={email}
+            placeholder="Enter Email Address"
             rules={[
               {
                 required: true,
                 message: "Please input your email!",
               },
-            ]}
-            onChange={handleFormOnChange}
-          />
-          <CustomInputField
-            label="Seat Number"
-            name="seatNumber"
-            value={seatNumber}
-            defaultValue={seatData.map((element) => element.seatNumber)}
-            rules={[
               {
-                required: true,
-                message: "Please input your seat number!",
+                type: "email",
+                message: "Please input a valid email!",
               },
             ]}
             onChange={handleFormOnChange}
           />
 
+          <Form.Item label={"Seat Number"} name={"seatNumber"}>
+            <Select
+              mode="multiple"
+              allowClear
+              style={{
+                width: "100%",
+              }}
+              placeholder="Please select"
+              defaultValue={seatNumber}
+              disabled={true}
+            />
+          </Form.Item>
           <Form.Item
             label="Booking Date"
             name="dateOfBooking"
@@ -159,6 +170,10 @@ const BookingModal = ({ isOpenModal = false, handleModal = () => {} }) => {
               format="DD-MM-YYYY"
               value={dateOfBooking}
               onChange={handleDateOnChange}
+              placeholder="Enter Booking Date"
+              defaultValue={
+                dateOfBooking ? dayjs(dateOfBooking, "DD-MM-YYYY") : ""
+              }
             />
           </Form.Item>
         </Form>
