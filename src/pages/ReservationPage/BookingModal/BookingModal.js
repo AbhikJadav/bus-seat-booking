@@ -52,13 +52,13 @@ const BookingModal = ({
     if (isEdit) {
       dispatch(updateUserData(userObj));
       handleModal(false);
-      setUserObj()
+      setUserObj();
     } else {
       try {
         await form.validateFields();
         dispatch(setUserData({ ...userObj, id: uuid() }));
         handleModal(false);
-        navigate("/dashboard");
+        navigate("/");
       } catch (error) {
         console.error("Form validation failed:", error);
       }

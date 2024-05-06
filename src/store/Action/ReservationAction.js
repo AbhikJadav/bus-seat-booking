@@ -1,7 +1,13 @@
 import { RSERVATION_TYPE } from "../Type";
 
-const { SET_SEAT_DATA, SET_USER_DATA, DELETE_USER_DATA, UPDATE_USER_DATA,DELETE_SEAT_DATA } =
-  RSERVATION_TYPE;
+const {
+  SET_SEAT_DATA,
+  SET_USER_DATA,
+  DELETE_USER_DATA,
+  UPDATE_USER_DATA,
+  DELETE_SEAT_DATA,
+  SET_NAVIGATION,
+} = RSERVATION_TYPE;
 
 export const setSeatData = (payload) => ({
   type: SET_SEAT_DATA,
@@ -24,5 +30,9 @@ export const deleteUserData = (payload) => ({
 
 export const updateUserData = (payload) => ({
   type: UPDATE_USER_DATA,
+  payload,
+});
+export const handleNavigation = (payload) => ({
+  type: SET_NAVIGATION,
   payload,
 });

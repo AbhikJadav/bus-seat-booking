@@ -3,6 +3,7 @@ import { RSERVATION_TYPE } from "../Type";
 const initialState = {
   seatData: [],
   userData: [],
+  navKey: "1",
 };
 const {
   SET_SEAT_DATA,
@@ -10,6 +11,7 @@ const {
   SET_USER_DATA,
   DELETE_USER_DATA,
   UPDATE_USER_DATA,
+  SET_NAVIGATION,
 } = RSERVATION_TYPE;
 const ReservationReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -43,6 +45,11 @@ const ReservationReducer = (state = initialState, action) => {
       return {
         ...state,
         userData: updateUserData,
+      };
+    case SET_NAVIGATION:
+      return {
+        ...state,
+        navKey: action.payload,
       };
     default:
       return state;
