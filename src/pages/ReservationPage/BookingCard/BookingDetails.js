@@ -10,6 +10,9 @@ const BookingDetails = ({ selectedSeatData = [] }) => {
 
   const price = 500;
   const handleModal = (value) => {
+    if (!value) {
+      setUserObj(initialUserObj);
+    }
     setIsOpenModal(value);
   };
   const initialUserObj = {

@@ -5,6 +5,7 @@ import { deleteUserData } from "../../store/Action/ReservationAction";
 import BookingModal from "../ReservationPage/BookingModal/BookingModal";
 import { DeleteFilled, EditFilled } from "@ant-design/icons";
 import styles from "./dashboard.module.scss";
+import TablePagination from "./TablePagination";
 
 const DashboardPage = () => {
   const reservationSelector = useSelector((state) => state.reservationReducer);
@@ -12,6 +13,9 @@ const DashboardPage = () => {
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const handleModal = (value) => {
+    if (!value) {
+      setUserObj(initialUserObj);
+    }
     setIsOpenModal(value);
     setIsEdit(false);
   };
@@ -79,9 +83,28 @@ const DashboardPage = () => {
     handleModal(true);
     setIsEdit(true);
   };
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
+  const handlePageChange = (page, pageSize) => {
+    setCurrentPage(page);
+    setPageSize(pageSize);
+  };
+  const paginateData = userData.slice(
+    (currentPage - 1) * pageSize,
+    currentPage * pageSize
+  );
   return (
     <div>
-      <Table columns={columns} dataSource={userData} />
+      <Table columns={columns} dataSource={paginateData} pagination={false} />
+      {paginateData.length > 10 && (
+        <TablePagination
+          data={userData}
+          currentPage={currentPage}
+          pageSize={pageSize}
+          handlePageChange={handlePageChange}
+        />
+      )}
       {isOpenModal ? (
         <BookingModal
           isOpenModal={isOpenModal}

@@ -11,10 +11,7 @@ const SeatComponent = ({
 }) => {
   const reservationSelector = useSelector((state) => state.reservationReducer);
   const { userData, seatData } = reservationSelector;
-  const userSeatNumber =
-    userData?.map((element) => element.seatNumber)[0] ||
-    []?.map((ele) => ele) ||
-    [];
+  const userSeatNumber = userData.map((element) => element.seatNumber).flat();
   const checkSeatIsAvailble = (element) =>
     userSeatNumber.includes(element.seatNumber);
 

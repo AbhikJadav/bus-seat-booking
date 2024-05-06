@@ -52,6 +52,7 @@ const BookingModal = ({
     if (isEdit) {
       dispatch(updateUserData(userObj));
       handleModal(false);
+      setUserObj()
     } else {
       try {
         await form.validateFields();
