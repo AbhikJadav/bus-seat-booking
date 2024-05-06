@@ -1,0 +1,4 @@
+export const RSERVATION_TYPE = {
+  SET_SEAT_DATA: "SET_SEAT_DATA",
+  SET_USER_DATA: "SET_USER_DATA",
+};

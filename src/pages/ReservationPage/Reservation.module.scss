@@ -3,6 +3,19 @@
   flex-direction: column;
   justify-content: center;
   gap: 20px;
+  .seatTextWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    font-size: 20px;
+    background-color: #dde1ff;
+    color: #1d1d1d;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 1.5rem;
+    font-weight: 400;
+  }
 }
 .seatContainer {
   display: flex;
@@ -10,10 +23,10 @@
   gap: 10px;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   .deskContainer {
     display: flex;
     flex-direction: column;
-    gap: 50px;
     .deskWrapper {
       padding: 20px;
       border: 1px solid #d3d3d3;
@@ -22,6 +35,7 @@
       justify-content: center;
       align-items: center;
       gap: 70px;
+      margin-bottom: 20px;
       .seatWrapper {
         display: flex;
         flex-direction: column;
@@ -43,7 +57,7 @@
   }
 }
 .seatDesignWrapper {
-  border: 1px solid #949494;
+  border: 1px solid #d3d3d3;
   border-radius: 5px;
   width: 100px;
   height: 10px;
@@ -53,9 +67,28 @@
   justify-content: space-between;
   align-items: center;
   gap: 10px;
+  &:hover {
+    cursor: pointer;
+    border: 1px solid #949494;
+    // background-color: #000;
+    // color: #fff;
+  }
+  
 }
 .seatSquare {
   border: 1px solid #d3d3d3;
   width: 8px;
   height: 25px;
+}
+.deskContainer {
+  .deskHeadingConatiner {
+    font-size: 20px;
+    font-weight: 300;
+    padding: 10px;
+  }
+}
+.reserveWrapper{
+  border: 1px solid black;
+  display: flex;
+  gap: 30px;
 }

@@ -8,6 +8,7 @@ const CustomButton = ({
   buttonText = "",
   buttonClassName = "",
   onClick = () => {},
+  ...rest
 }) => {
   // variant("primary,dashed,text,link")
   return (
@@ -17,6 +18,7 @@ const CustomButton = ({
         [buttonClassName]: !!buttonClassName,
       })}
       onClick={onClick}
+      {...rest}
     >
       {buttonText}
     </Button>
