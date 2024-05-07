@@ -50,6 +50,7 @@ const ReservationReducer = (state = initialState, action) => {
       return {
         ...state,
         navKey: action.payload,
+        seatData: [],
       };
     default:
       return state;

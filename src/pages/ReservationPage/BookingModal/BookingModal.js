@@ -86,14 +86,12 @@ const BookingModal = ({
       <div>
         <Form
           name="basic"
-          // labelCol={{
-          //   span: 8,
-          // }}
-          // wrapperCol={{
-          //   span: 16,
-          // }}
-          // style={{
-          // }}
+          labelCol={{
+            span: 5,
+          }}
+          wrapperCol={{
+            span: 20,
+          }}
           initialValues={{
             remember: true,
           }}
@@ -162,7 +160,7 @@ const BookingModal = ({
             />
           </Form.Item>
           <Form.Item
-            label="Booking Date"
+            label="Booking Date:"
             name="dateOfBooking"
             rules={[
               {
@@ -181,6 +179,9 @@ const BookingModal = ({
                 dateOfBooking ? dayjs(dateOfBooking, "DD-MM-YYYY") : ""
               }
               disabledDate={disabledDate}
+              style={{
+                width: "100%",
+              }}
             />
           </Form.Item>
         </Form>
