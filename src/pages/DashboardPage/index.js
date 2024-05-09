@@ -3,11 +3,17 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteUserData } from "../../store/Action/ReservationAction";
 import BookingModal from "../ReservationPage/BookingModal/BookingModal";
-import { DeleteFilled, EditFilled } from "@ant-design/icons";
+import {
+  DeleteFilled,
+  EditFilled,
+  ExclamationCircleFilled,
+} from "@ant-design/icons";
 import styles from "./dashboard.module.scss";
 import TablePagination from "./TablePagination";
 import ComponentHeader from "../../components/ComponentHeader";
-
+import { Modal } from "antd";
+import Toast from "../../components/ToastComponent";
+const { confirm } = Modal;
 const DashboardPage = () => {
   const reservationSelector = useSelector((state) => state.reservationReducer);
   const { userData = [] } = reservationSelector;
@@ -42,11 +48,7 @@ const DashboardPage = () => {
       dataIndex: "seatNumber",
       key: "seatNumber",
       render: (row) => {
-        return (
-          <div>
-            {row.map((element) => element).join(", ")}
-          </div>
-        );
+        return <div>{row.map((element) => element).join(", ")}</div>;
       },
     },
     {
@@ -60,7 +62,7 @@ const DashboardPage = () => {
       render: (rowData) => (
         <Space size="middle">
           <div
-            onClick={() => handleDeleteClick(rowData)}
+            onClick={() => showConfirm(rowData)}
             className={styles.deleteWraapper}
           >
             <DeleteFilled />
@@ -102,7 +104,24 @@ const DashboardPage = () => {
     (currentPage - 1) * pageSize,
     currentPage * pageSize
   );
-
+  const showConfirm = (rowData) => {
+    const { firstName = "", lastName = "", dateOfBooking = "" } = rowData;
+    confirm({
+      title: `Do you want to delete ${firstName + " " + lastName} passenger?`,
+      icon: <ExclamationCircleFilled />,
+      content: <div>Booking Date : {dateOfBooking}</div>,
+      onOk() {
+        handleDeleteClick(rowData);
+        Toast(
+          "success",
+          `Delete ${firstName + " " + lastName} passenger successfully.`
+        );
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
+  };
   return (
     <div className={styles.dashboardContainer}>
       <ComponentHeader headerText={"Dashboard Page"} />
