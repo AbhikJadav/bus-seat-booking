@@ -142,6 +142,7 @@ const DashboardPage = () => {
             userObj={userObj}
             setUserObj={setUserObj}
             isEdit={isEdit}
+            initialUserObj={initialUserObj}
           />
         ) : (
           <></>

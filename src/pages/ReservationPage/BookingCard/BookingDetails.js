@@ -57,6 +57,7 @@ const BookingDetails = ({ selectedSeatData = [] }) => {
           handleModal={handleModal}
           userObj={userObj}
           setUserObj={setUserObj}
+          initialUserObj={initialUserObj}
         />
       ) : (
         <></>

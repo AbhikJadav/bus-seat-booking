@@ -2,14 +2,16 @@ import { DatePicker, Form, Modal, Select } from "antd";
 import React from "react";
 import CustomButton from "../../../components/Button";
 import CustomInputField from "../../../components/CustomInputField";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
+  handleNavigation,
   setUserData,
   updateUserData,
 } from "../../../store/Action/ReservationAction";
 import { v4 as uuid } from "uuid";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router";
+import Toast from "../../../components/ToastComponent";
 
 const BookingModal = ({
   isOpenModal = false,
@@ -17,10 +19,14 @@ const BookingModal = ({
   userObj = {},
   setUserObj = () => {},
   isEdit = false,
+  initialUserObj = {},
 }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [form] = Form.useForm();
+  const reservationSelector = useSelector((state) => state.reservationReducer);
+  const { userData } = reservationSelector;
+  console.log("userData", userData);
 
   const handleFormOnChange = (event) => {
     const { name, value } = event.target;
@@ -49,18 +55,36 @@ const BookingModal = ({
     dateOfBooking = "",
   } = userObj;
   const handleSaveClick = async () => {
+    const findUserData = userData.find(
+      (element) => element.email === userObj.email
+    );
     if (isEdit) {
       dispatch(updateUserData(userObj));
       handleModal(false);
-      setUserObj();
+      setUserObj(initialUserObj);
+      Toast("success", "Edit passenger successfully.");
     } else {
-      try {
-        await form.validateFields();
-        dispatch(setUserData({ ...userObj, id: uuid() }));
-        handleModal(false);
-        navigate("/");
-      } catch (error) {
-        console.error("Form validation failed:", error);
+      if (findUserData) {
+        return Toast(
+          "error",
+          `The user with ${findUserData.email} is already exists!!`
+        );
+      } else {
+        try {
+          await form.validateFields();
+          dispatch(setUserData({ ...userObj, id: uuid() }));
+          dispatch(handleNavigation("1"));
+          handleModal(false);
+          navigate("/");
+          setUserObj(initialUserObj);
+          Toast("success", "Added passenger successfully.");
+        } catch (error) {
+          error?.errorFields?.map((element) => {
+            return element?.errors?.map((nm) => {
+              return Toast("error", nm);
+            });
+          });
+        }
       }
     }
   };
