@@ -11,24 +11,23 @@ const Header = () => {
   const dispatch = useDispatch();
   const selector = useSelector((state) => state.reservationReducer);
   const { navKey } = selector;
-  const [selectedMenu, setSelectedMenu] = useState("1");
   const handeNaveClick = (value) => {
     const findActiveMenu = MenuArray.find(
       (element) => element.key === value.key
     );
     dispatch(handleNavigation(value?.key));
-    setSelectedMenu(value?.key);
     navigate(findActiveMenu?.route);
   };
   return (
     <div className={style.navContainer}>
       <Menu
-        defaultSelectedKeys={navKey}
+        defaultSelectedKeys={[navKey]}
+        selectedKeys={[navKey]}
         mode="horizontal"
         theme="dark"
         items={MenuArray}
         onClick={handeNaveClick}
-        activeKey={selectedMenu}
+        activeKey={navKey}
       />
     </div>
   );

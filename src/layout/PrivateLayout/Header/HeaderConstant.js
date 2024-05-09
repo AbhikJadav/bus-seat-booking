@@ -3,7 +3,7 @@ export const MenuArray = [
     key: "1",
     // icon: <PieChartOutlined />,
     label: "Dashboard",
-    route: "/dashboard",
+    route: "/",
   },
   {
     key: "2",
